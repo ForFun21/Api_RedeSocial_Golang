@@ -25,13 +25,13 @@ var rotasUsuarios = []Rota{
 		RequerAltenticacao: false,
 	},
 	{
-		URI:                "/usuarios/{usuariosId}",
+		URI:                "/usuarios/{usuarioId}",
 		Metodo:             http.MethodPut,
 		Funcao:             controllers.AtualizarUsuario,
 		RequerAltenticacao: false,
 	},
 	{
-		URI:                "/usuarios/{usuariosId}",
+		URI:                "/usuarios/{usuarioId}",
 		Metodo:             http.MethodDelete,
 		Funcao:             controllers.DeletarUsuario,
 		RequerAltenticacao: false,

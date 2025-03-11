@@ -8,17 +8,17 @@ import (
 
 // Usuario reprenta um usuário utilizando a rede social
 type Usuario struct {
-	ID       uint64    `json:"id,omitempty"`
-	Nome     string    `json:"nome,omitempty"`
-	Nick     string    `json:"nick,omitempty"`
-	Email    string    `json:"email,omitempty"`
-	Senha    string    `json:"senha,omitempty"`
-	CriadoEm time.Time `json:"CriadoEm,omitempty"`
+	ID       uint64     `json:"id,omitempty"`
+	Nome     string     `json:"nome,omitempty"`
+	Nick     string     `json:"nick,omitempty"`
+	Email    string     `json:"email,omitempty"`
+	Senha    string     `json:"senha,omitempty"`
+	CriadoEm *time.Time `json:"CriadoEm,omitempty"`
 }
 
-// Preparar vai chamar os méroos para validar e formatar o usuário recebido 
-func (usuario *Usuario) Preparar() error {
-	if erro := usuario.validar(); erro != nil {
+// Preparar vai chamar os méroos para validar e formatar o usuário recebido
+func (usuario *Usuario) Preparar(etapa string) error {
+	if erro := usuario.validar(etapa); erro != nil {
 		return erro
 	}
 
@@ -26,7 +26,7 @@ func (usuario *Usuario) Preparar() error {
 	return nil
 }
 
-func (usuario *Usuario) validar() error {
+func (usuario *Usuario) validar(etapa string) error {
 	if usuario.Nome == "" {
 		return errors.New("O nome é obrigatório e não pode estar em branco")
 	}
@@ -39,11 +39,11 @@ func (usuario *Usuario) validar() error {
 		return errors.New("O email é obrigatório e não pode estar em branco")
 	}
 
-	if usuario.Senha == "" {
+	if etapa == "cadastro" && usuario.Senha == "" {
 		return errors.New("A senha é obrigatório e não pode estar em branco")
 	}
 
-	return nil 
+	return nil
 }
 
 func (usuario *Usuario) formatar() {

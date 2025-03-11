@@ -4,16 +4,18 @@ import (
 	"errors"
 	"strings"
 	"time"
+
+	"github.com/badoux/checkmail"
 )
 
 // Usuario reprenta um usuário utilizando a rede social
 type Usuario struct {
-	ID       uint64     `json:"id,omitempty"`
-	Nome     string     `json:"nome,omitempty"`
-	Nick     string     `json:"nick,omitempty"`
-	Email    string     `json:"email,omitempty"`
-	Senha    string     `json:"senha,omitempty"`
-	CriadoEm *time.Time `json:"CriadoEm,omitempty"`
+	ID       uint64    `json:"id,omitempty"`
+	Nome     string    `json:"nome,omitempty"`
+	Nick     string    `json:"nick,omitempty"`
+	Email    string    `json:"email,omitempty"`
+	Senha    string    `json:"senha,omitempty"`
+	CriadoEm time.Time `json:"CriadoEm,omitempty"`
 }
 
 // Preparar vai chamar os méroos para validar e formatar o usuário recebido
@@ -37,6 +39,10 @@ func (usuario *Usuario) validar(etapa string) error {
 
 	if usuario.Email == "" {
 		return errors.New("O email é obrigatório e não pode estar em branco")
+	}
+
+	if erro := checkmail.ValidateFormat(usuario.Email); erro != nil {
+		return errors.New("O email inserido é inválido")
 	}
 
 	if etapa == "cadastro" && usuario.Senha == "" {

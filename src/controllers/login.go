@@ -8,7 +8,6 @@ import (
 	"api/src/respostas"
 	"api/src/seguranca"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 )
@@ -51,6 +50,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		respostas.Erro(w, http.StatusInternalServerError, erro)
 		return
 	}
-	fmt.Println(token)
+
 	w.Write([]byte(token))
 }

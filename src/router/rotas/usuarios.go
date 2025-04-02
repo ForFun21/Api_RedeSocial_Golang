@@ -16,7 +16,7 @@ var rotasUsuarios = []Rota{
 		URI:                "/usuarios",
 		Metodo:             http.MethodGet,
 		Funcao:             controllers.BurscarUsuarios,
-		RequerAltenticacao: false,
+		RequerAltenticacao: true,
 	},
 	{
 		URI:                "/usuarios/{usuarioId}",

@@ -150,7 +150,7 @@ func AtualizarPublicacao(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var publicacao models.Publicacao 
+	var publicacao models.Publicacao
 	if erro = json.Unmarshal(corpoRequisicao, &publicacao); erro != nil {
 		respostas.Erro(w, http.StatusBadRequest, erro)
 		return
@@ -235,4 +235,28 @@ func BuscarPublicacoesPorUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respostas.JSON(w, http.StatusOK, publicacoes)
+}
+
+// CurtirPublicacao adiciona uma curtida a uma publicação
+func CurtirPublicacao(w http.ResponseWriter, r *http.Request) {
+	parametros := mux.Vars(r)
+	puclicacaoID, erro := strconv.ParseUint(parametros["publicacaoId"], 10, 64)
+	if erro != nil {
+		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repository.NovoRepositorioDePublicacoes(db)
+	if erro = repositorio.Curtir(puclicacaoID); erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	respostas.JSON(w, http.StatusNoContent, nil)
 }

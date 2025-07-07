@@ -186,6 +186,24 @@ curl -X POST http://localhost:5000/usuarios \
   -d '{"nome":"Jhon","email":"jhon@ex.com","senha":"minhaSenha"}'
 ```
 
+#### Exemplo no Postman
+
+1. Abra o Postman e crie uma nova requisição.
+2. Selecione **POST** e insira a URL: `http://localhost:5000/usuarios`.
+3. Em **Headers**, adicione:
+   - `Content-Type: application/json`
+4. Em **Body**, selecione **raw** e **JSON**, e insira:
+   ```json
+   {
+     "nome": "Jhon",
+     "email": "jhon@ex.com",
+     "senha": "minhaSenha"
+   }
+   ```
+5. Clique em **Send** para enviar a requisição.
+
+---
+
 ### Login
 
 ```bash
@@ -195,6 +213,23 @@ curl -X POST http://localhost:5000/login \
 # → { "token": "eyJhbGciOi..." }
 ```
 
+#### Exemplo no Postman
+
+1. Crie uma nova requisição no Postman.
+2. Selecione **POST** e informe a URL: `http://localhost:5000/login`.
+3. Em **Headers**, adicione:
+   - `Content-Type: application/json`
+4. Em **Body**, raw JSON:
+   ```json
+   {
+     "email": "jhon@ex.com",
+     "senha": "minhaSenha"
+   }
+   ```
+5. Clique em **Send** e verifique o corpo da resposta com o token JWT.
+
+---
+
 ### Listar Publicações (com token)
 
 ```bash
@@ -202,4 +237,9 @@ curl http://localhost:5000/publicacoes \
   -H "Authorization: Bearer <seu_token_aqui>"
 ```
 
----
+#### Exemplo no Postman
+
+1. No Postman, crie uma requisição **GET** com a URL `http://localhost:5000/publicacoes`.
+2. Em **Headers**, adicione:
+   - `Authorization: Bearer <seu_token_aqui>`
+3. Clique em **Send** para obter a lista de publicações.

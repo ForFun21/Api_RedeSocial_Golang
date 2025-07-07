@@ -142,7 +142,7 @@ func (repositorio Usuarios) BuscarPorEmail(email string) (models.Usuario, error)
 	if linha.Next() {
 		if erro = linha.Scan(&usuario.ID, &usuario.Senha); erro != nil {
 			return models.Usuario{}, erro
-		}	
+		}
 	}
 
 	return usuario, nil
@@ -187,7 +187,7 @@ func (repositorio Usuarios) BuscarSeguidores(usuarioID uint64) ([]models.Usuario
 	linhas, erro := repositorio.db.Query(`
 		select u.id, u.nome, u.nick, u.email, u.criadoEm 
 		from usuarios u inner join seguidores s on u.id = s.seguidor_id where s.usuario_id = ?
-	`, usuarioID,	
+	`, usuarioID,
 	)
 	if erro != nil {
 		return nil, erro
@@ -212,7 +212,6 @@ func (repositorio Usuarios) BuscarSeguidores(usuarioID uint64) ([]models.Usuario
 	}
 
 	return usuarios, nil
-
 
 }
 
@@ -267,7 +266,7 @@ func (repositorio Usuarios) BuscarSenha(usuarioID uint64) (string, error) {
 	}
 
 	return usuario.Senha, nil
-}	
+}
 
 // AtualizarSenha altera a senha de um usuário no banco de dados
 func (repositorio Usuarios) AtualizarSenha(usuarioID uint64, senha string) error {

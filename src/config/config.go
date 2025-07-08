@@ -9,7 +9,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-
 var (
 	// StringConexaoBanco é a string de conexão com o MySQL
 	StringConexaoBanco = ""
@@ -21,14 +20,16 @@ var (
 	SecretKey []byte
 )
 
-// Carregar vai inicializar as variáveis de ambiente 
+// Carregar vai inicializar as variáveis de ambiente
 func Carregar() {
-	var erro error
 
-	if erro = godotenv.Load(); erro != nil {
-		log.Fatal(erro)
+	if os.Getenv("GO_ENV") != "production" {
+		if err := godotenv.Load(); err != nil {
+			log.Println("Nenhum arquivo .env carregado (GO_ENV != production)")
+		}
 	}
-
+	
+	var erro error
 	Porta, erro = strconv.Atoi(os.Getenv("API_PORT"))
 	if erro != nil {
 		Porta = 9000
@@ -38,7 +39,7 @@ func Carregar() {
 		os.Getenv("DB_USUARIO"),
 		os.Getenv("DB_SENHA"),
 		os.Getenv("DB_BANCO"),
-	)	
+	)
 
 	SecretKey = []byte(os.Getenv("SECRET_KEY"))
 }

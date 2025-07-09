@@ -21,7 +21,7 @@ jobs:
 
     - name: Sincronizar código na EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
           cd ~/Api_RedeSocial_Golang || exit
           git pull origin main
           go mod tidy

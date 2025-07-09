@@ -245,5 +245,3 @@ curl http://localhost:5000/publicacoes \
 2. Em **Headers**, adicione:
    - `Authorization: Bearer <seu_token_aqui>`
 3. Clique em **Send** para obter a lista de publicações.
-
-Teste deploy

@@ -1,5 +1,7 @@
 # API Rede Social em Go
 
+# DOCUMENTAÇÃO ESTÁ DESATUALIZADA
+
 Esta documentação descreve o funcionamento da API de Rede Social desenvolvida em Go, incluindo como configurá-la e utilizá-la localmente.
 
 ---

@@ -49,10 +49,14 @@ func Carregar() {
 	pgDB := os.Getenv("DB_BANCO")
 
 	// Monta string de conexão PostgreSQL
-	// Substitua todo o bloco if/else por:
+	sslMode := os.Getenv("SSL_MODE")
+	if sslMode == "" {
+		sslMode = "disable"
+	}
+
 	StringConexaoBanco = fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		pgHost, pgPort, pgUser, pgPass, pgDB,
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		pgHost, pgPort, pgUser, pgPass, pgDB, sslMode,
 	)
 
 	// Define chave secreta

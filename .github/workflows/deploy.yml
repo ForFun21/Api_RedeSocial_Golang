@@ -1,0 +1,30 @@
+name: Deploy na EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    - name: Configurar SSH
+      uses: webfactory/ssh-agent@v0.8.1
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+    - name: Sincronizar código na EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          cd ~/Api_RedeSocial_Golang || exit
+          git pull origin main
+          go mod tidy
+          GOOS=linux GOARCH=amd64 go build -o rede-social-api main.go
+          sudo systemctl restart rede-social-api
+        EOF

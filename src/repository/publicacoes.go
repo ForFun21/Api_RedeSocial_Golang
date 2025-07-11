@@ -65,13 +65,18 @@ func (repositorio Publicacoes) BuscarPorID(publicacaoID uint64) (models.Publicac
 
 // Buscar traz as publicações dos usuários seguidos e também do próprio usuário que fez a requisição
 func (repositorio Publicacoes) Buscar(usuarioID uint64) ([]models.Publicacao, error) {
-	linhas, erro := repositorio.db.Query(
-		`SELECT DISTINCT p.id, p.titulo, p.conteudo, p.autor_id, p.curtidas, p.criado_em AS criadaEm, u.nick
-        FROM publicacoes p
-        INNER JOIN usuarios u ON u.id = p.autor_id
-        INNER JOIN seguidores s ON p.autor_id = s.usuario_id
-        WHERE u.id = $1 OR s.seguidor_id = $1
-        ORDER BY p.id DESC`,
+	linhas, erro := repositorio.db.Query(`
+       SELECT DISTINCT 
+           p.id, p.titulo, p.conteudo, p.autor_id, p.curtidas, p.criado_em, u.nick
+       FROM publicacoes p
+       JOIN usuarios u 
+         ON u.id = p.autor_id
+       LEFT JOIN seguidores s
+         ON s.usuario_id = p.autor_id 
+         AND s.seguidor_id = $1
+       WHERE p.autor_id = $1
+          OR s.seguidor_id = $1
+       ORDER BY p.id DESC`,
 		usuarioID,
 	)
 	if erro != nil {
